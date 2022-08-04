@@ -1,6 +1,6 @@
 {
   "name": "babel-plugin-function-decorators",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A babel plugin for decorating functions",
   "keywords": [
     "javascript",
