@@ -1,23 +1,23 @@
 const tap = x => { console.log(x); return x }
 const range = (a, b) => [...Array(b - a).keys()].map(x => x + a)
 
-const isArrowFunctionDeclaration = (pn, t) => (
+export const isArrowFunctionDeclaration = (pn, t) => (
   t.isVariableDeclaration(pn) &&
   t.isArrowFunctionExpression((pn.node || pn).declarations[0].init)
 )
 
-const isFunctionDeclaration = (p, t) => (
+export const isFunctionDeclaration = (p, t) => (
   t.isFunctionDeclaration(p) ||
   t.isArrowFunctionExpression(p) ||
   isArrowFunctionDeclaration(p, t)
 )
 
-const isFunctionExport = (p, t) => (
+export const isFunctionExport = (p, t) => (
   t.isExportNamedDeclaration(p) &&
   isFunctionDeclaration(p.node.declaration, t)
 )
 
-const isDefaultFunctionExport = (p, t) => (
+export const isDefaultFunctionExport = (p, t) => (
   t.isExportDefaultDeclaration(p) &&
   isFunctionDeclaration(p.node.declaration, t)
 )
@@ -29,7 +29,7 @@ const getCalleeName = (n, t) => {
 
 const isTopLevel = p => p.parentPath.node.type === 'Program'
 
-const isDecorator = (p, t) => (
+export const isDecorator = (p, t) => (
   isTopLevel(p) &&
   t.isCallExpression(p.node.expression) &&
   getCalleeName(p.node.expression.callee, t).slice(-1) === '_'
@@ -44,7 +44,7 @@ const getAFEParams = (n, t) => {
   return [ps, ...getAFEParams(n.body, t)]
 }
 
-const getParams = (p, t) => {
+export const getParams = (p, t) => {
   let node = p.node;
   
   if (isFunctionExport(p, t) || isDefaultFunctionExport(p, t)) {
@@ -62,7 +62,7 @@ const getParams = (p, t) => {
 //   a list of paths (decorators),
 //   target path (the func being decorated)
 // ]
-const getDecorators = (p, t) => {
+export const getDecorators = (p, t) => {
   const r = [p]
 
   while (true) {
